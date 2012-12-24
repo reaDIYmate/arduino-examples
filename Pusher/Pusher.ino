@@ -37,10 +37,18 @@ Wifly wifly = Wifly(Serial1, 49, 74, 75, 76);
 PusherClient pusher(wifly, buffer, 2048);
 
 void setup() {
-    pinMode(78, OUTPUT);
+    /*
+     * Since we're going to use the serial port to print some messages we have
+     * to initialize the Serial object.
+     */
     Serial.begin(115200);
     /*
-     * The connection is handled in the setup() function.
+     * We'll also use the green LED. On the reaDIYmate board the corresponding
+     * pin is number 78.
+     */
+     pinMode(78, OUTPUT);
+    /*
+     * The connection is handled here in the setup() function.
      * First, we'll initialize the communication with the Wifi module:
      */
     wifly.initialize();
@@ -53,7 +61,7 @@ void setup() {
     pusher.setChannel("theChannel");
     pusher.setKey("37b2a3d0703782f40a52");
     /*
-     * Now we simply call the its connect() method to open a websocket and suscribe
+     * Now we simply call the connect() method to open a websocket and suscribe
      * to the channel we just set up:
      */
     pusher.connect();
@@ -62,13 +70,13 @@ void setup() {
 
 void loop() {
     /*
-     * Here we call the hasNextEvent() method on the PusherClient object to check
-     * for Pusher messages.
+     * Here we call the hasNextEvent() method on the PusherClient object to
+     * check for Pusher messages.
      */
     if (pusher.hasNextEvent()) {
-         /*
-          * When we receive a message, we look for a value named "value" (how original...)
-          */
+        /*
+         * When we receive a message, we look for a value named "value".
+         */
         int value = pusher.getIntegerByName("value");
         if (value >= 0) {
             /* If the value in the message is greater than 0 we:
