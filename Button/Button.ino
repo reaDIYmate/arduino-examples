@@ -91,11 +91,11 @@ void loop() {
     switch (digitalRead(2)) {
         case LOW :
             button.dispatch(Event(CONTACT_DETECTED), buttonEvent);
-            led.colorGreen();
+            led.colorOrange();
             break;
         case HIGH :
             button.dispatch(Event(NO_CONTACT_DETECTED), buttonEvent);
-            led.colorOrange();
+            led.colorGreen();
             break;
     }
     /*
